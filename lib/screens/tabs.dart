@@ -6,6 +6,7 @@ import 'package:meals_app_enhancement/providers/filters_provider.dart';
 import 'package:meals_app_enhancement/screens/categories.dart';
 import 'package:meals_app_enhancement/screens/filters.dart';
 import 'package:meals_app_enhancement/screens/meals.dart';
+import 'package:meals_app_enhancement/screens/planner.dart';
 import 'package:meals_app_enhancement/widgets/main_drawer.dart';
 
 const kInitialFilters = {
@@ -61,6 +62,11 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
       activePageTitle = 'Your Favorites';
     }
 
+    if (_selectedPageIndex == 2) {
+      activePage = const PlannerScreen();
+      activePageTitle = "Meal Planner";
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(activePageTitle),
@@ -80,6 +86,10 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.star),
             label: 'Favorites',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: 'Planner',
           ),
         ],
       ),

@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:meals_app_enhancement/models/meal.dart';
+import 'package:meals_app_enhancement/providers/planner_provider.dart';
 import 'package:meals_app_enhancement/screens/meal_details.dart';
 import 'package:meals_app_enhancement/widgets/meal_item.dart';
 
-class MealsScreen extends StatelessWidget {
+class MealsScreen extends ConsumerWidget {
   const MealsScreen({
     super.key,
     this.title,
+    this.planner,
     required this.meals,
   });
 
   final String? title;
+  final String? planner;
   final List<Meal> meals;
 
   void _selectMeal(BuildContext context, Meal meal) {
@@ -24,8 +28,12 @@ class MealsScreen extends StatelessWidget {
     );
   }
 
+  void _selectMealForPlanner(WidgetRef ref, Meal meal) {
+    ref.read(plannerProvider.notifier).addMealToPlanner(planner!, meal);
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     Widget content = Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -53,7 +61,7 @@ class MealsScreen extends StatelessWidget {
         itemBuilder: (ctx, index) => MealItem(
           meal: meals[index],
           onSelectMeal: (meal) {
-            _selectMeal(context, meal);
+            planner != null ? _selectMealForPlanner(ref, meal) : _selectMeal(context, meal);
           },
         ),
       );
@@ -61,6 +69,15 @@ class MealsScreen extends StatelessWidget {
 
     if (title == null) {
       return content;
+    }
+
+    if (planner != null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Meal Planner'),
+        ),
+        body: content,
+      );
     }
 
     return Scaffold(

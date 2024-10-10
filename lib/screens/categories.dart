@@ -9,10 +9,12 @@ import 'package:meals_app_enhancement/widgets/category_grid_item.dart';
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({
     super.key,
+    this.planner,
     required this.availableMeals,
   });
 
   final List<Meal> availableMeals;
+  final String? planner;
 
   @override
   State<CategoriesScreen> createState() {
@@ -45,7 +47,8 @@ class _CategoriesScreenState extends State<CategoriesScreen>
     super.dispose();
   }
 
-  void _selectCategory(BuildContext context, Category category) {
+  void _selectCategory(
+      BuildContext context, Category category, String planner) {
     final filteredMeals = widget.availableMeals
         .where((meal) => meal.categories.contains(category.id))
         .toList();
@@ -55,6 +58,7 @@ class _CategoriesScreenState extends State<CategoriesScreen>
       MaterialPageRoute(
         builder: (ctx) => MealsScreen(
           title: category.title,
+          planner: planner,
           meals: filteredMeals,
         ),
       ),
@@ -63,7 +67,7 @@ class _CategoriesScreenState extends State<CategoriesScreen>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
+    Widget content = AnimatedBuilder(
         animation: _animationController,
         child: GridView(
           padding: const EdgeInsets.all(24.0),
@@ -80,7 +84,9 @@ class _CategoriesScreenState extends State<CategoriesScreen>
               CategoryGridItem(
                 category: category,
                 onSelectCategory: () {
-                  _selectCategory(context, category);
+                  widget.planner != null
+                      ? _selectCategory(context, category, widget.planner!)
+                      : _selectCategory(context, category, widget.planner!);
                 },
               )
           ],
@@ -95,5 +101,16 @@ class _CategoriesScreenState extends State<CategoriesScreen>
               )),
               child: child,
             ));
+
+    if (widget.planner != null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Meal Planner'),
+        ),
+        body: content,
+      );
+    }
+
+    return content;
   }
 }
