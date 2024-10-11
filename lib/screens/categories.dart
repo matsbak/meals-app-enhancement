@@ -58,13 +58,28 @@ class _CategoriesScreenState extends State<CategoriesScreen>
       MaterialPageRoute(
         builder: (ctx) => MealsScreen(
           title: category.title,
-          planner: planner,
           meals: filteredMeals,
         ),
       ),
     );
   }
 
+  void _selectCategoryInPlanner(
+      BuildContext context, Category category, String planner) {
+    final filteredMeals = widget.availableMeals
+        .where((meal) => meal.categories.contains(category.id))
+        .toList();
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => MealsScreen(
+          title: category.title,
+          meals: filteredMeals,
+          planner: planner,
+        ),
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     Widget content = AnimatedBuilder(
@@ -85,7 +100,8 @@ class _CategoriesScreenState extends State<CategoriesScreen>
                 category: category,
                 onSelectCategory: () {
                   widget.planner != null
-                      ? _selectCategory(context, category, widget.planner!)
+                      ? _selectCategory(
+                          context, category, widget.planner!)
                       : _selectCategory(context, category, widget.planner!);
                 },
               )

@@ -17,7 +17,12 @@ const kInitialFilters = {
 };
 
 class TabsScreen extends ConsumerStatefulWidget {
-  const TabsScreen({super.key});
+  const TabsScreen({
+    super.key,
+    this.pageIndex = -1,
+  });
+
+  final int pageIndex;
 
   @override
   ConsumerState<TabsScreen> createState() {
@@ -27,6 +32,15 @@ class TabsScreen extends ConsumerStatefulWidget {
 
 class _TabsScreenState extends ConsumerState<TabsScreen> {
   int _selectedPageIndex = 0;
+
+  @override
+  void initState() {
+    int index = widget.pageIndex;
+    if (index != -1) {
+      _selectedPageIndex = index;
+    }
+    super.initState();
+  }
 
   void _selectPage(int index) {
     setState(() {
@@ -63,6 +77,8 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
     }
 
     if (_selectedPageIndex == 2) {
+      _selectedPageIndex = 2;
+
       activePage = const PlannerScreen();
       activePageTitle = "Meal Planner";
     }

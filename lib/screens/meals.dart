@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals_app_enhancement/models/meal.dart';
 import 'package:meals_app_enhancement/providers/planner_provider.dart';
 import 'package:meals_app_enhancement/screens/meal_details.dart';
+import 'package:meals_app_enhancement/screens/tabs.dart';
 import 'package:meals_app_enhancement/widgets/meal_item.dart';
 
 class MealsScreen extends ConsumerWidget {
@@ -28,8 +29,16 @@ class MealsScreen extends ConsumerWidget {
     );
   }
 
-  void _selectMealForPlanner(WidgetRef ref, Meal meal) {
+  void _selectMealForPlanner(BuildContext context, WidgetRef ref, Meal meal) {
     ref.read(plannerProvider.notifier).addMealToPlanner(planner!, meal);
+
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (ctx) => const TabsScreen(
+          pageIndex: 2,
+        ),
+      ),
+    );
   }
 
   @override
@@ -61,7 +70,9 @@ class MealsScreen extends ConsumerWidget {
         itemBuilder: (ctx, index) => MealItem(
           meal: meals[index],
           onSelectMeal: (meal) {
-            planner != null ? _selectMealForPlanner(ref, meal) : _selectMeal(context, meal);
+            planner != null
+                ? _selectMealForPlanner(context, ref, meal)
+                : _selectMeal(context, meal);
           },
         ),
       );
