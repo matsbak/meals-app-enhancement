@@ -69,12 +69,13 @@ class _CategoriesScreenState extends State<CategoriesScreen>
         .where((meal) => meal.categories.contains(category.id))
         .toList();
 
+    // Navigator.push(context, route);
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) => MealsScreen(
           title: category.title,
-          meals: filteredMeals,
           planner: planner,
+          meals: filteredMeals,
         ),
       ),
     );
@@ -101,22 +102,22 @@ class _CategoriesScreenState extends State<CategoriesScreen>
                 onSelectCategory: () {
                   widget.planner != null
                       ? _selectCategoryInPlanner(
-                          context, category, widget.planner!)
+                      context, category, widget.planner!)
                       : _selectCategory(context, category);
                 },
               )
           ],
         ),
         builder: (context, child) => SlideTransition(
-              position: Tween(
-                begin: const Offset(0.0, 0.3),
-                end: const Offset(0.0, 0.0),
-              ).animate(CurvedAnimation(
-                parent: _animationController,
-                curve: Curves.easeInOut,
-              )),
-              child: child,
-            ));
+          position: Tween(
+            begin: const Offset(0.0, 0.3),
+            end: const Offset(0.0, 0.0),
+          ).animate(CurvedAnimation(
+            parent: _animationController,
+            curve: Curves.easeInOut,
+          )),
+          child: child,
+        ));
 
     if (widget.planner != null) {
       return Scaffold(
