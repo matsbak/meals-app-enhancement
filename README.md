@@ -9,6 +9,8 @@ with extra features. The project is done by group 4.
 
 ### Extra features
 
+1. Meal planner screen
+
 ### How to run
 
 1. Open the project folder in your preferred IDE
