@@ -9,7 +9,7 @@ with extra features. The project is done by group 4.
 
 ### Extra features
 
-1. Meal planner screen
+1. Meal planner
 
 ### How to run
 
