@@ -47,8 +47,7 @@ class _CategoriesScreenState extends State<CategoriesScreen>
     super.dispose();
   }
 
-  void _selectCategory(
-      BuildContext context, Category category, String planner) {
+  void _selectCategory(BuildContext context, Category category) {
     final filteredMeals = widget.availableMeals
         .where((meal) => meal.categories.contains(category.id))
         .toList();
@@ -80,6 +79,7 @@ class _CategoriesScreenState extends State<CategoriesScreen>
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     Widget content = AnimatedBuilder(
@@ -100,9 +100,9 @@ class _CategoriesScreenState extends State<CategoriesScreen>
                 category: category,
                 onSelectCategory: () {
                   widget.planner != null
-                      ? _selectCategory(
+                      ? _selectCategoryInPlanner(
                           context, category, widget.planner!)
-                      : _selectCategory(context, category, widget.planner!);
+                      : _selectCategory(context, category);
                 },
               )
           ],
